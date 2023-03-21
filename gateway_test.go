@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/apex/gateway"
+	"github.com/kruegge/gateway"
 	"github.com/tj/assert"
 )
 
