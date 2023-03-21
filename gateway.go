@@ -41,6 +41,15 @@ type Gateway struct {
 func (gw *Gateway) Invoke(ctx context.Context, payload []byte) ([]byte, error) {
 	evt := events.APIGatewayProxyRequest{}
 
+	sqsEvent := events.SQSEvent{}
+	_ = json.Unmarshal(payload, &sqsEvent)
+
+	if len(sqsEvent.Records) == 1 {
+		// we have an sqs trigger, create request from its body
+		// todo - add support for multiple records
+		payload = []byte(sqsEvent.Records[0].Body)
+	}
+
 	if err := json.Unmarshal(payload, &evt); err != nil {
 		return nil, err
 	}
